@@ -1,0 +1,399 @@
+{
+  "diagramType": "JOBFLOW",
+  "contents": [
+    {
+      "CLASSNAME": "JobFrameNode",
+      "INSTANCE": {
+        "name": "mainJobFlow",
+        "className": "com.example.batchapp.MainJobFlow",
+        "x": 160,
+        "y": 48,
+        "width": 384,
+        "height": 256,
+        "id": 1,
+        "direction": 0,
+        "children": [
+          {
+            "CLASSNAME": "JobPort",
+            "INSTANCE": {
+              "cx": 161,
+              "cy": 202,
+              "out": false,
+              "name": "sales_detail",
+              "namePosition": 8,
+              "modelName": "sales_detail",
+              "modelDescription": "売上明細",
+              "id": 10,
+              "direction": 0,
+              "type": "JobPort",
+              "description": "sales_detail"
+            }
+          },
+          {
+            "CLASSNAME": "JobPort",
+            "INSTANCE": {
+              "cx": 160,
+              "cy": 162,
+              "out": false,
+              "name": "item_master",
+              "namePosition": 8,
+              "modelName": "item_master",
+              "modelDescription": "商品マスタ",
+              "id": 2,
+              "direction": 2,
+              "type": "JobPort",
+              "description": "item_master"
+            }
+          },
+          {
+            "CLASSNAME": "JobPort",
+            "INSTANCE": {
+              "cx": 543,
+              "cy": 125,
+              "out": true,
+              "name": "output_details",
+              "namePosition": 32,
+              "modelName": "output_sales",
+              "modelDescription": "出力明細",
+              "id": 3,
+              "direction": 4,
+              "type": "JobPort",
+              "description": "output_details"
+            }
+          }
+        ],
+        "type": "Jobflow",
+        "description": "MainJobFlow"
+      }
+    },
+    {
+      "CLASSNAME": "MarkerNode",
+      "INSTANCE": {
+        "x": 681,
+        "y": 320,
+        "width": 32,
+        "height": 32,
+        "id": 0,
+        "direction": 0
+      }
+    },
+    {
+      "CLASSNAME": "DataFileNode",
+      "INSTANCE": {
+        "className": "com.example.batchapp.ItemMasterFromCsv",
+        "modelName": "item_master",
+        "modelDescription": "商品マスタ",
+        "fileType": "@directio.csv Importer",
+        "propertyMap": {
+          "getResourcePattern": "item_master.csv",
+          "getDataSize": "UNKNOWN",
+          "getBasePath": "sample/in",
+          "getFormat": "com.example.modelgen.dmdl.csv.ItemMasterCsvFormat"
+        },
+        "x": 12,
+        "y": 93,
+        "width": 139,
+        "height": 48,
+        "id": 7,
+        "direction": 0,
+        "type": "DataFile",
+        "description": "商品マスタ"
+      }
+    },
+    {
+      "CLASSNAME": "DataFileNode",
+      "INSTANCE": {
+        "className": "com.example.batchapp.SalesDetailFromCsv",
+        "modelName": "sales_detail",
+        "modelDescription": "売上明細",
+        "fileType": "@directio.csv Importer",
+        "propertyMap": {
+          "getResourcePattern": "sales_detail.csv",
+          "getDataSize": "UNKNOWN",
+          "getBasePath": "sample/in",
+          "getFormat": "com.example.modelgen.dmdl.csv.SalesDetailCsvFormat"
+        },
+        "x": 10,
+        "y": 217,
+        "width": 141,
+        "height": 48,
+        "id": 8,
+        "direction": 0,
+        "type": "DataFile",
+        "description": "売上明細"
+      }
+    },
+    {
+      "CLASSNAME": "DataFileNode",
+      "INSTANCE": {
+        "className": "com.example.batchapp.OutputSalesToCsv",
+        "modelName": "output_sales",
+        "modelDescription": "出力明細",
+        "fileType": "@directio.csv Exporter",
+        "propertyMap": {
+          "getOrder": "",
+          "getResourcePattern": "output_sales.csv",
+          "getBasePath": "sample/out",
+          "getDeletePatterns": "",
+          "getFormat": "com.example.modelgen.dmdl.csv.OutputSalesCsvFormat"
+        },
+        "x": 572,
+        "y": 158,
+        "width": 134,
+        "height": 48,
+        "id": 9,
+        "direction": 0,
+        "type": "DataFile",
+        "description": "出力明細"
+      }
+    },
+    {
+      "CLASSNAME": "OperatorNode",
+      "INSTANCE": {
+        "className": "com.example.operator.MainOperator",
+        "methodName": "joinedSales",
+        "attributeList": [
+          {
+            "annotationName": "com.asakusafw.vocabulary.operator.MasterJoin",
+            "parameterName": "selection",
+            "valueType": "java.lang.String"
+          }
+        ],
+        "x": 250,
+        "y": 159,
+        "width": 80,
+        "height": 48,
+        "id": 11,
+        "direction": 0,
+        "children": [
+          {
+            "CLASSNAME": "OpePort",
+            "INSTANCE": {
+              "cx": 250,
+              "cy": 175,
+              "out": false,
+              "name": "master",
+              "namePosition": 1,
+              "role": "master",
+              "modelName": "item_master",
+              "modelDescription": "商品マスタ",
+              "id": 12,
+              "direction": 2,
+              "type": "OpePort",
+              "description": "マスター"
+            }
+          },
+          {
+            "CLASSNAME": "OpePort",
+            "INSTANCE": {
+              "cx": 250,
+              "cy": 191,
+              "out": false,
+              "name": "tx",
+              "namePosition": 1,
+              "role": "tx",
+              "modelName": "sales_detail",
+              "modelDescription": "売上明細",
+              "id": 13,
+              "direction": 2,
+              "type": "OpePort",
+              "description": "トランザクション"
+            }
+          },
+          {
+            "CLASSNAME": "OpePort",
+            "INSTANCE": {
+              "cx": 330,
+              "cy": 175,
+              "out": true,
+              "name": "joined",
+              "namePosition": 4,
+              "role": "joined",
+              "modelName": "joined_sales",
+              "modelDescription": "結合明細",
+              "id": 14,
+              "direction": 4,
+              "type": "OpePort",
+              "description": "結合済"
+            }
+          },
+          {
+            "CLASSNAME": "OpePort",
+            "INSTANCE": {
+              "cx": 330,
+              "cy": 191,
+              "out": true,
+              "name": "missed",
+              "namePosition": 4,
+              "role": "missed",
+              "modelName": "sales_detail",
+              "modelDescription": "売上明細",
+              "id": 15,
+              "direction": 4,
+              "type": "OpePort",
+              "description": "マスター無し"
+            }
+          }
+        ],
+        "type": "@MasterJoin",
+        "description": "マスター結合演算子"
+      }
+    },
+    {
+      "CLASSNAME": "EllipseOperatorNode",
+      "INSTANCE": {
+        "className": "com.asakusafw.vocabulary.flow.util.CoreOperators",
+        "methodName": "stop",
+        "x": 380,
+        "y": 251,
+        "width": 16,
+        "height": 16,
+        "id": 21,
+        "direction": 0,
+        "type": "stop",
+        "description": "停止演算子"
+      }
+    },
+    {
+      "CLASSNAME": "OperatorNode",
+      "INSTANCE": {
+        "className": "com.asakusafw.vocabulary.flow.util.CoreOperators",
+        "methodName": "extend",
+        "x": 349,
+        "y": 81,
+        "width": 80,
+        "height": 48,
+        "id": 22,
+        "direction": 0,
+        "children": [
+          {
+            "CLASSNAME": "OpePort",
+            "INSTANCE": {
+              "cx": 349,
+              "cy": 105,
+              "out": false,
+              "name": "in",
+              "namePosition": 0,
+              "role": "",
+              "modelName": "joined_sales",
+              "modelDescription": "結合明細",
+              "id": 23,
+              "direction": 2,
+              "type": "OpePort",
+              "description": "入力"
+            }
+          },
+          {
+            "CLASSNAME": "OpePort",
+            "INSTANCE": {
+              "cx": 429,
+              "cy": 105,
+              "out": true,
+              "name": "out",
+              "namePosition": 0,
+              "role": "",
+              "modelName": "output_sales",
+              "modelDescription": "出力明細",
+              "id": 24,
+              "direction": 4,
+              "type": "OpePort",
+              "description": "出力"
+            }
+          }
+        ],
+        "type": "extend",
+        "description": "拡張演算子"
+      }
+    },
+    {
+      "CLASSNAME": "OperatorNode",
+      "INSTANCE": {
+        "className": "com.example.operator.MainOperator",
+        "methodName": "updated",
+        "x": 445,
+        "y": 229,
+        "width": 80,
+        "height": 48,
+        "id": 25,
+        "direction": 0,
+        "children": [
+          {
+            "CLASSNAME": "OpePort",
+            "INSTANCE": {
+              "cx": 445,
+              "cy": 253,
+              "out": false,
+              "name": "in",
+              "namePosition": 0,
+              "role": "",
+              "modelName": "output_sales",
+              "modelDescription": "出力明細",
+              "id": 26,
+              "direction": 2,
+              "type": "OpePort",
+              "description": "入力"
+            }
+          },
+          {
+            "CLASSNAME": "OpePort",
+            "INSTANCE": {
+              "cx": 525,
+              "cy": 253,
+              "out": true,
+              "name": "out",
+              "namePosition": 0,
+              "role": "",
+              "modelName": "output_sales",
+              "modelDescription": "出力明細",
+              "id": 27,
+              "direction": 4,
+              "type": "OpePort",
+              "description": "出力"
+            }
+          }
+        ],
+        "type": "@Update",
+        "description": "更新演算子"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "sourceId": 8,
+      "targetId": 10
+    },
+    {
+      "sourceId": 10,
+      "targetId": 13
+    },
+    {
+      "sourceId": 7,
+      "targetId": 2
+    },
+    {
+      "sourceId": 2,
+      "targetId": 12
+    },
+    {
+      "sourceId": 27,
+      "targetId": 3
+    },
+    {
+      "sourceId": 3,
+      "targetId": 9
+    },
+    {
+      "sourceId": 14,
+      "targetId": 23
+    },
+    {
+      "sourceId": 15,
+      "targetId": 21
+    },
+    {
+      "sourceId": 24,
+      "targetId": 26
+    }
+  ],
+  "type": "Jobflow"
+}

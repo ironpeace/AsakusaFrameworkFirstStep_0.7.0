@@ -1,0 +1,36 @@
+{
+  "diagramType": "BATCH",
+  "name": "SampleBatch",
+  "className": "com.example.batch.SampleBatch",
+  "contents": [
+    {
+      "CLASSNAME": "MarkerNode",
+      "INSTANCE": {
+        "x": 608,
+        "y": 448,
+        "width": 32,
+        "height": 32,
+        "id": 0,
+        "direction": 0
+      }
+    },
+    {
+      "CLASSNAME": "JobNode",
+      "INSTANCE": {
+        "name": "mainJobFlow",
+        "className": "com.example.batchapp.MainJobFlow",
+        "x": 254,
+        "y": 211,
+        "width": 80,
+        "height": 48,
+        "id": 1,
+        "direction": 0,
+        "type": "Jobflow",
+        "description": "MainJobFlow"
+      }
+    }
+  ],
+  "connections": [],
+  "type": "Batch",
+  "description": "SampleBatch"
+}

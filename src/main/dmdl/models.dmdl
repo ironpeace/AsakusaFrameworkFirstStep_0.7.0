@@ -1,0 +1,54 @@
+"商品マスタ"
+@directio.csv
+item_master = {
+
+    "商品ID"
+    item_id : INT;
+
+    "商品名"
+    item_name : TEXT;
+};
+
+"売上明細"
+@directio.csv
+sales_detail = {
+
+    "明細ID"
+    sales_id : INT;
+
+    "商品ID"
+    item_id : INT;
+
+    "売上数"
+    count : INT;
+};
+
+"結合明細"
+@directio.csv
+joined joined_sales = item_master -> {
+
+    "商品ID"
+    item_id -> item_id;
+
+    "商品名"
+    item_name -> item_name;
+} % item_id
++ sales_detail -> {
+
+    "明細ID"
+    sales_id -> sales_id;
+
+    "商品ID"
+    item_id -> item_id;
+
+    "売上数"
+    count -> count;
+} % item_id;
+
+"出力明細"
+@directio.csv
+output_sales = {
+
+    "フラグ"
+    flg : TEXT;
+} + joined_sales;
